@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CouponsTracker</string>
+
+    <string name="title_create_coupon">Create Coupon</string>
+    <string name="title_edit_coupon">Edit Coupon</string>
+
+    <string name="title_date_picker">Coupon valid until</string>
+
+    <string name="menu_item_edit">Edit</string>
+    <string name="menu_item_delete">Delete</string>
+    <string name="menu_item_share">Share</string>
+
+    <string name="hint_merchant_name">Merchant Name</string>
+    <string name="hint_category">Category</string>
+    <string name="hint_valid_until">Valid until</string>
+    <string name="hint_coupon_code">Coupon code (Optional)</string>
+    <string name="hint_description">Description</string>
+</resources>
