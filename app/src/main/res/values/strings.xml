@@ -1,18 +1,85 @@
 <resources>
     <string name="app_name">CouponsTracker</string>
 
+    <!--CouponListActivity viewpager titles-->
+    <string name="title_upcoming_coupon_list_fragment">Upcoming</string>
+    <string name="title_past_coupon_list_fragment">Past</string>
+
+    <!--Coupon load info strings-->
+    <string name="error_no_coupons">No coupons found. Click the add button at the bottom right to add new coupons.</string>
+    <string name="error_loading_coupons">Some error occurred. Please go back and try again.</string>
+
+    <!--CouponFragment mode titles-->
     <string name="title_create_coupon">Create Coupon</string>
     <string name="title_edit_coupon">Edit Coupon</string>
+    <string name="title_view_coupon">View Coupon</string>
 
     <string name="title_date_picker">Coupon valid until</string>
 
+    <!--Coupon states used to identify if coupon was used, unused or expired-->
+    <string name="coupon_state_available">Use Coupon</string>
+    <string name="coupon_state_used">Coupon Used</string>
+    <string name="coupon_state_unavailable">Coupon unavailable</string>
+
+    <!--Coupon action result toasts-->
+    <string name="coupon_add_successful">Successfully added coupon.</string>
+    <string name="coupon_add_unsuccessful">Some error occurred. Please try again.</string>
+
+    <string name="coupon_update_successful">Successfully updated coupon.</string>
+    <string name="coupon_update_unsuccessful">Some error occurred. Please try again.</string>
+
+    <string name="coupon_delete_successful">Successfully deleted coupon.</string>
+    <string name="coupon_delete_unsuccessful">Coupon delete failed. Please try again.</string>
+
+    <string name="share_coupon_via">Share coupon via&#8230;</string>
+
+    <!--Menu item titles found in landing screen-->
+    <string name="menu_item_my_profile">My Profile</string>
+    <string name="menu_item_settings">Settings</string>
+
+    <!--CouponFragment menu item titles-->
+    <string name="menu_item_save">Save</string>
     <string name="menu_item_edit">Edit</string>
     <string name="menu_item_delete">Delete</string>
     <string name="menu_item_share">Share</string>
 
+    <!--CouponFragment input field hints-->
     <string name="hint_merchant_name">Merchant Name</string>
     <string name="hint_category">Category</string>
     <string name="hint_valid_until">Valid until</string>
     <string name="hint_coupon_code">Coupon code (Optional)</string>
     <string name="hint_description">Description</string>
+
+    <string name="category_general">General</string>
+    <string name="no_code_required">No code required</string>
+
+    <!--Invalid coupon data warning strings-->
+    <string name="error_invalid_merchant">Merchant name has to be 2 &#8211; 20 characters long.</string>
+    <string name="error_invalid_category">Category if present has to be 2 &#8211; 20 characters long.</string>
+    <string name="error_invalid_date">Date until which coupon is available has to specified.</string>
+    <string name="error_invalid_description">Description has to be 2 &#8211; 150 characters long.</string>
+
+    <!--Strings used in SettingsFragment-->
+    <string name="settings_sync">Sync</string>
+    <string name="settings_export_to_drive">Export to drive</string>
+    <string name="settings_export_to_drive_summary">Back up your coupon data to Google drive</string>
+    <string name="settings_import_from_drive">Import from drive</string>
+    <string name="settings_import_from_drive_summary">Load coupon data from Google drive</string>
+
+    <string name="settings_notification">Notification</string>
+    <string name="settings_show_notifications">Show notifications</string>
+    <string name="settings_show_notifications_summary_on">Daily notifications about coupon validity enabled</string>
+    <string name="settings_show_notifications_summary_off">Daily notifications about coupon validity disabled</string>
+    <string name="settings_set_notification_time">Set notification time</string>
+    <string name="settings_set_notification_time_summary">Daily notifications will be shown at %s hrs.</string>
+    <string name="settings_set_notification_ringtone">Set notification ringtone</string>
+    <string name="settings_set_notification_vibrate">Vibrate</string>
+    <string name="settings_set_notification_vibrate_summary_on">Vibrate on receiving notification</string>
+    <string name="settings_set_notification_vibrate_summary_off">Do not vibrate on receiving notification</string>
+
+    <!--Strings used in MyProfileFragment-->
+    <string name="my_profile_coupons_used">Coupons used&#58;</string>
+    <string name="my_profile_coupons_currently_available">Coupons currently available&#58;</string>
+
+    <string name="my_profile_no_coupons_used">You have not used any coupon!</string>
 </resources>

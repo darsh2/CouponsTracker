@@ -20,8 +20,8 @@ import org.junit.runner.RunWith;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class CouponProviderTest extends ProviderTestCase2<CouponProvider> {
-    public CouponProviderTest() {
+public class CouponTableProviderTest extends ProviderTestCase2<CouponProvider> {
+    public CouponTableProviderTest() {
         super(CouponProvider.class, CouponContract.AUTHORITY);
     }
 
@@ -49,7 +49,7 @@ public class CouponProviderTest extends ProviderTestCase2<CouponProvider> {
         for (int i = 0; i < numCouponsToInsert; i++) {
             contentValuesArray[i] = TestUtilities.getCompleteCoupon();
         }
-        int numCouponsInserted = getMockContentResolver().bulkInsert(CouponContract.Coupon.URI, contentValuesArray);
+        int numCouponsInserted = getMockContentResolver().bulkInsert(CouponContract.CouponTable.URI, contentValuesArray);
         assertEquals(numCouponsToInsert, numCouponsInserted);
     }
 
@@ -59,16 +59,16 @@ public class CouponProviderTest extends ProviderTestCase2<CouponProvider> {
         ContentValues[] contentValuesArray = new ContentValues[numCouponsToInsert];
         for (int i = 0; i < numCouponsToInsert; i++) {
             contentValuesArray[i] = TestUtilities.getCompleteCoupon();
-            contentValuesArray[i].put(CouponContract.Coupon.COLUMN_VALID_UNTIL, TestUtilities.VALID_UNTIL[i]);
+            contentValuesArray[i].put(CouponContract.CouponTable.COLUMN_VALID_UNTIL, TestUtilities.VALID_UNTIL[i]);
         }
-        getMockContentResolver().bulkInsert(CouponContract.Coupon.URI, contentValuesArray);
+        getMockContentResolver().bulkInsert(CouponContract.CouponTable.URI, contentValuesArray);
 
         Cursor cursor = getMockContentResolver().query(
-                CouponContract.Coupon.URI,
-                CouponContract.Coupon.PROJECTION,
-                CouponContract.Coupon.COLUMN_VALID_UNTIL + " < ?",
+                CouponContract.CouponTable.URI,
+                CouponContract.CouponTable.PROJECTION,
+                CouponContract.CouponTable.COLUMN_VALID_UNTIL + " < ?",
                 new String[]{ String.valueOf(1490227199) },
-                CouponContract.Coupon.COLUMN_VALID_UNTIL
+                CouponContract.CouponTable.COLUMN_VALID_UNTIL
         );
         if (cursor == null || cursor.getCount() == 0) {
             fail("Cursor was null or count is 0");
@@ -76,13 +76,13 @@ public class CouponProviderTest extends ProviderTestCase2<CouponProvider> {
         long prev = -1;
         while (cursor.moveToNext()) {
             Coupon coupon = new Coupon(
-                    cursor.getLong(CouponContract.Coupon.POSITION_ID),
-                    cursor.getString(CouponContract.Coupon.POSITION_MERCHANT),
-                    cursor.getString(CouponContract.Coupon.POSITION_CATEGORY),
-                    cursor.getLong(CouponContract.Coupon.POSITION_VALID_UNTIL),
-                    cursor.getString(CouponContract.Coupon.POSITION_COUPON_CODE),
-                    cursor.getString(CouponContract.Coupon.POSITION_DESCRIPTION),
-                    cursor.getInt(CouponContract.Coupon.POSITION_COUPON_STATE)
+                    cursor.getLong(CouponContract.CouponTable.POSITION_ID),
+                    cursor.getString(CouponContract.CouponTable.POSITION_MERCHANT),
+                    cursor.getString(CouponContract.CouponTable.POSITION_CATEGORY),
+                    cursor.getLong(CouponContract.CouponTable.POSITION_VALID_UNTIL),
+                    cursor.getString(CouponContract.CouponTable.POSITION_COUPON_CODE),
+                    cursor.getString(CouponContract.CouponTable.POSITION_DESCRIPTION),
+                    cursor.getInt(CouponContract.CouponTable.POSITION_COUPON_STATE)
             );
             DebugLog.logMessage(coupon.toString());
             if (coupon.validUntil < prev) {
