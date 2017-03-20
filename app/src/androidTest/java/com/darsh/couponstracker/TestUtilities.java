@@ -38,25 +38,25 @@ public class TestUtilities {
     static ContentValues getMinimalCoupon() {
         Random random = new Random(System.currentTimeMillis());
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CouponContract.Coupon.COLUMN_MERCHANT, MERCHANTS[random.nextInt(MERCHANTS.length)]);
-        contentValues.put(CouponContract.Coupon.COLUMN_VALID_UNTIL, VALID_UNTIL_RANDOM[random.nextInt(VALID_UNTIL_RANDOM.length)]);
+        contentValues.put(CouponContract.CouponTable.COLUMN_MERCHANT, MERCHANTS[random.nextInt(MERCHANTS.length)]);
+        contentValues.put(CouponContract.CouponTable.COLUMN_VALID_UNTIL, VALID_UNTIL_RANDOM[random.nextInt(VALID_UNTIL_RANDOM.length)]);
         return contentValues;
     }
 
     static ContentValues getCompleteCoupon() {
         Random random = new Random(System.currentTimeMillis());
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CouponContract.Coupon.COLUMN_MERCHANT, MERCHANTS[random.nextInt(MERCHANTS.length)]);
-        contentValues.put(CouponContract.Coupon.COLUMN_CATEGORY, CATEGORIES[random.nextInt(CATEGORIES.length)]);
-        contentValues.put(CouponContract.Coupon.COLUMN_VALID_UNTIL, VALID_UNTIL_RANDOM[random.nextInt(VALID_UNTIL_RANDOM.length)]);
-        contentValues.put(CouponContract.Coupon.COLUMN_COUPON_CODE, COUPON_CODES[random.nextInt(COUPON_CODES.length)]);
-        contentValues.put(CouponContract.Coupon.COLUMN_DESCRIPTION, DESCRIPTION[random.nextInt(DESCRIPTION.length)]);
+        contentValues.put(CouponContract.CouponTable.COLUMN_MERCHANT, MERCHANTS[random.nextInt(MERCHANTS.length)]);
+        contentValues.put(CouponContract.CouponTable.COLUMN_CATEGORY, CATEGORIES[random.nextInt(CATEGORIES.length)]);
+        contentValues.put(CouponContract.CouponTable.COLUMN_VALID_UNTIL, VALID_UNTIL_RANDOM[random.nextInt(VALID_UNTIL_RANDOM.length)]);
+        contentValues.put(CouponContract.CouponTable.COLUMN_COUPON_CODE, COUPON_CODES[random.nextInt(COUPON_CODES.length)]);
+        contentValues.put(CouponContract.CouponTable.COLUMN_DESCRIPTION, DESCRIPTION[random.nextInt(DESCRIPTION.length)]);
         return contentValues;
     }
 
     static ContentValues getUsedCoupon() {
         ContentValues contentValues = getCompleteCoupon();
-        contentValues.put(CouponContract.Coupon.COLUMN_COUPON_STATE, 1);
+        contentValues.put(CouponContract.CouponTable.COLUMN_COUPON_STATE, 1);
         return contentValues;
     }
 }
