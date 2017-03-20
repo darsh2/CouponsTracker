@@ -18,15 +18,15 @@ public class CouponDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_COUPON_TABLE = "CREATE TABLE " + CouponContract.Coupon.TABLE_NAME
+        String CREATE_COUPON_TABLE = "CREATE TABLE " + CouponContract.CouponTable.TABLE_NAME
                 + " ("
-                + CouponContract.Coupon.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + CouponContract.Coupon.COLUMN_MERCHANT + " TEXT NOT NULL, "
-                + CouponContract.Coupon.COLUMN_CATEGORY + " TEXT NOT NULL DEFAULT 'general', "
-                + CouponContract.Coupon.COLUMN_VALID_UNTIL + " INTEGER NOT NULL, "
-                + CouponContract.Coupon.COLUMN_COUPON_CODE + " TEXT NOT NULL DEFAULT 'No code required', "
-                + CouponContract.Coupon.COLUMN_DESCRIPTION + " TEXT NOT NULL DEFAULT 'Coupon description not set.', "
-                + CouponContract.Coupon.COLUMN_COUPON_STATE + " INTEGER NOT NULL DEFAULT 0"
+                + CouponContract.CouponTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + CouponContract.CouponTable.COLUMN_MERCHANT + " TEXT NOT NULL, "
+                + CouponContract.CouponTable.COLUMN_CATEGORY + " TEXT NOT NULL, "
+                + CouponContract.CouponTable.COLUMN_VALID_UNTIL + " INTEGER NOT NULL, "
+                + CouponContract.CouponTable.COLUMN_COUPON_CODE + " TEXT NOT NULL, "
+                + CouponContract.CouponTable.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
+                + CouponContract.CouponTable.COLUMN_COUPON_STATE + " INTEGER NOT NULL"
                 + ");";
         db.execSQL(CREATE_COUPON_TABLE);
     }

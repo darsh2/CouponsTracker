@@ -3,6 +3,8 @@ package com.darsh.couponstracker.database;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import com.darsh.couponstracker.logger.DebugLog;
+
 /**
  * Created by darshan on 12/3/17.
  */
@@ -17,7 +19,7 @@ public final class CouponContract {
     private CouponContract() {
     }
 
-    public static final class Coupon implements BaseColumns {
+    public static final class CouponTable implements BaseColumns {
         public static final Uri URI = BASE_URI.buildUpon().appendPath(PATH_COUPON).build();
 
         static final String TABLE_NAME = "coupon";
@@ -50,6 +52,8 @@ public final class CouponContract {
         };
 
         public static Uri makeUriForCoupon(long id) {
+            DebugLog.logMethod();
+            DebugLog.logMessage(URI.buildUpon().appendPath(String.valueOf(id)).build().toString());
             return URI.buildUpon().appendPath(String.valueOf(id)).build();
         }
 

@@ -9,7 +9,10 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.darsh.couponstracker.event.DataUpdateEvent;
 import com.darsh.couponstracker.logger.DebugLog;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by darshan on 13/3/17.
@@ -43,12 +46,12 @@ public class CouponProvider extends ContentProvider {
         DebugLog.logMessage("Uri " + uri.toString());
 
         Cursor cursor;
-        SQLiteDatabase db = couponDbHelper.getReadableDatabase();
+        SQLiteDatabase readableDatabase = couponDbHelper.getReadableDatabase();
         switch (uriMatcher.match(uri)) {
             case COUPON: {
                 DebugLog.logMessage("COUPON");
-                cursor = db.query(
-                        CouponContract.Coupon.TABLE_NAME,
+                cursor = readableDatabase.query(
+                        CouponContract.CouponTable.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -61,11 +64,11 @@ public class CouponProvider extends ContentProvider {
 
             case COUPON_WITH_ID: {
                 DebugLog.logMessage("COUPON_WITH_ID");
-                cursor = db.query(
-                        CouponContract.Coupon.TABLE_NAME,
+                cursor = readableDatabase.query(
+                        CouponContract.CouponTable.TABLE_NAME,
                         projection,
-                        CouponContract.Coupon.COLUMN_ID + " = ?",
-                        new String[]{ CouponContract.Coupon.getCouponIdFromUri(uri) },
+                        CouponContract.CouponTable.COLUMN_ID + " = ?",
+                        new String[]{ CouponContract.CouponTable.getCouponIdFromUri(uri) },
                         null,
                         null,
                         sortOrder
@@ -97,16 +100,16 @@ public class CouponProvider extends ContentProvider {
         DebugLog.logMessage("Uri " + uri.toString());
 
         Uri returnUri;
-        SQLiteDatabase db = couponDbHelper.getWritableDatabase();
+        SQLiteDatabase writableDatabase = couponDbHelper.getWritableDatabase();
         switch (uriMatcher.match(uri)) {
             case COUPON: {
                 DebugLog.logMessage("COUPON");
-                long rowId = db.insert(
-                        CouponContract.Coupon.TABLE_NAME,
+                long rowId = writableDatabase.insert(
+                        CouponContract.CouponTable.TABLE_NAME,
                         null,
                         values
                 );
-                returnUri = CouponContract.Coupon.makeUriForCoupon(rowId);
+                returnUri = CouponContract.CouponTable.makeUriForCoupon(rowId);
                 break;
             }
 
@@ -115,6 +118,7 @@ public class CouponProvider extends ContentProvider {
             }
         }
 
+        EventBus.getDefault().post(new DataUpdateEvent());
         if (getContext() != null && getContext().getContentResolver() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
@@ -125,7 +129,7 @@ public class CouponProvider extends ContentProvider {
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         DebugLog.logMethod();
         DebugLog.logMessage("Uri " + uri.toString());
-        final SQLiteDatabase db = couponDbHelper.getWritableDatabase();
+        final SQLiteDatabase writableDatabase = couponDbHelper.getWritableDatabase();
         int numRowsDeleted;
 
         // To delete all rows and get count of number of rows deleted
@@ -135,8 +139,8 @@ public class CouponProvider extends ContentProvider {
         switch (uriMatcher.match(uri)) {
             case COUPON: {
                 DebugLog.logMessage("COUPON");
-                numRowsDeleted = db.delete(
-                        CouponContract.Coupon.TABLE_NAME,
+                numRowsDeleted = writableDatabase.delete(
+                        CouponContract.CouponTable.TABLE_NAME,
                         selection,
                         selectionArgs
                 );
@@ -145,11 +149,11 @@ public class CouponProvider extends ContentProvider {
 
             case COUPON_WITH_ID: {
                 DebugLog.logMessage("COUPON_WITH_ID");
-                String couponId = CouponContract.Coupon.getCouponIdFromUri(uri);
-                numRowsDeleted = db.delete(
-                        CouponContract.Coupon.TABLE_NAME,
-                        '"' + couponId + '"' + " =" + CouponContract.Coupon.COLUMN_ID,
-                        selectionArgs
+                String couponId = CouponContract.CouponTable.getCouponIdFromUri(uri);
+                numRowsDeleted = writableDatabase.delete(
+                        CouponContract.CouponTable.TABLE_NAME,
+                        CouponContract.CouponTable.COLUMN_ID + " = ?",
+                        new String[]{ couponId }
                 );
                 break;
             }
@@ -159,6 +163,7 @@ public class CouponProvider extends ContentProvider {
             }
         }
 
+        EventBus.getDefault().post(new DataUpdateEvent());
         if (getContext() != null && getContext().getContentResolver() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
@@ -167,7 +172,30 @@ public class CouponProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        DebugLog.logMethod();
+        DebugLog.logMessage("Uri: " + uri);
+
+        int numRowsAffected = 0;
+        SQLiteDatabase writableDatabase = couponDbHelper.getWritableDatabase();
+        switch (uriMatcher.match(uri)) {
+            case COUPON_WITH_ID: {
+                DebugLog.logMessage("COUPON_WITH_ID");
+                String couponId = CouponContract.CouponTable.getCouponIdFromUri(uri);
+                numRowsAffected = writableDatabase.update(
+                        CouponContract.CouponTable.TABLE_NAME,
+                        values,
+                        CouponContract.CouponTable.COLUMN_ID + " = ?",
+                        new String[]{ couponId }
+                );
+                break;
+            }
+
+            default: {
+            }
+        }
+
+        EventBus.getDefault().post(new DataUpdateEvent());
+        return numRowsAffected;
     }
 
     @Override
@@ -175,17 +203,17 @@ public class CouponProvider extends ContentProvider {
         DebugLog.logMethod();
         DebugLog.logMessage("Uri " + uri.toString());
 
-        final SQLiteDatabase db = couponDbHelper.getWritableDatabase();
+        final SQLiteDatabase writableDatabase = couponDbHelper.getWritableDatabase();
         switch (uriMatcher.match(uri)) {
             case COUPON: {
                 DebugLog.logMessage("COUPON");
-                db.beginTransaction();
+                writableDatabase.beginTransaction();
                 int numCouponsInserted = 0;
                 try {
                     long rowId;
                     for (int i = 0, l = values.length; i < l; i++) {
-                        rowId = db.insert(
-                                CouponContract.Coupon.TABLE_NAME,
+                        rowId = writableDatabase.insert(
+                                CouponContract.CouponTable.TABLE_NAME,
                                 null,
                                 values[i]
                         );
@@ -193,10 +221,11 @@ public class CouponProvider extends ContentProvider {
                             numCouponsInserted++;
                         }
                     }
-                    db.setTransactionSuccessful();
+                    writableDatabase.setTransactionSuccessful();
                 } finally {
-                    db.endTransaction();
+                    writableDatabase.endTransaction();
                 }
+                EventBus.getDefault().post(new DataUpdateEvent());
                 if (getContext() != null) {
                     getContext().getContentResolver().notifyChange(uri, null);
                 }
