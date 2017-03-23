@@ -17,7 +17,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_weight="7"
+            android:layout_weight="6"
             android:layout_height="wrap_content"
             android:layout_margin="5dp">
 
@@ -25,6 +25,8 @@
                 android:id="@+id/text_view_merchant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
                 tools:text="Merchant"/>
 
             <TextView
@@ -32,12 +34,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 tools:text="Category"/>
             <TextView
                 android:id="@+id/text_view_valid_until"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 tools:text="Today"/>
 
             <TextView
@@ -45,13 +51,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 tools:text="Coupon code"/>
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:gravity="center">
@@ -67,6 +75,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textStyle="bold"
                 tools:text="Coupon State"/>
         </LinearLayout>
