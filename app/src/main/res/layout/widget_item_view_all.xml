@@ -10,5 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/view_all_coupons"
+        android:textStyle="bold"
         style="@style/WidgetTextViewTheme"/>
 </LinearLayout>

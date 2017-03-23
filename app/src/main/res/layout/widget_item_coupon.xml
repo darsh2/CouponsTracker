@@ -21,14 +21,18 @@
             android:id="@+id/text_view_merchant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
             style="@style/WidgetTextViewTheme"
             tools:text="Merchant"/>
 
         <TextView
-            android:id="@+id/text_view_valid_until"
+            android:id="@+id/text_view_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             style="@style/WidgetTextViewTheme"
             tools:text="Today"/>
 
@@ -37,6 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             style="@style/WidgetTextViewTheme"
             tools:text="Coupon code"/>
     </LinearLayout>
@@ -48,9 +54,11 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/text_view_category"
+            android:id="@+id/text_view_valid_until"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
             style="@style/WidgetTextViewTheme"
             tools:text="Category"/>
 
@@ -59,6 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textStyle="bold"
             tools:text="AVAILABLE"/>
     </LinearLayout>
