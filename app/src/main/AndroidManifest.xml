@@ -2,6 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.darsh.couponstracker">
 
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,18 +13,114 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.CouponActivity"
+            android:name=".ui.activity.CouponListActivity"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.CouponActivity"
+            android:parentActivityName=".ui.activity.CouponListActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        
+
+        <activity
+            android:name=".ui.activity.ContainerActivity"
+            android:parentActivityName=".ui.activity.CouponListActivity"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--SettingsActivity will always be in portrait mode to avoid handling
+        corner cases like orientation when GoogleApiClient is connecting or has
+        just connected-->
+        <activity
+            android:name=".ui.activity.SettingsActivity"
+            android:theme="@style/SettingsTheme"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize">
+            <meta-data android:name="com.google.android.apps.drive.APP_ID" android:value="id=couponstracker"/>
+            <intent-filter>
+                <action android:name="com.google.android.apps.drive.DRIVE_OPEN"/>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--Coupon data provider-->
         <provider
             android:authorities="com.darsh.couponstracker"
-            android:name=".database.CouponProvider"
+            android:name=".data.database.CouponProvider"
             android:exported="true"/>
+
+        <!--Widget receiver and service-->
+        <receiver
+            android:name=".ui.widget.CouponWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/coupon_widget_provider"/>
+        </receiver>
+
+        <service
+            android:name=".ui.widget.CouponWidgetService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+        <!--
+        Since this receiver will receive a custom action broadcast by the app itself,
+        specifying intent-filter results in a warning that says "Exported receiver does
+        not require permission". Deleting the intent-filter tag removes the warning.
+        Read more here - http://stackoverflow.com/a/16112560/3946664
+        -->
+        <receiver
+            android:name=".controller.receiver.AppWidgetAlarmReceiver"
+            android:enabled="true"/>
+
+        <receiver
+            android:name=".controller.receiver.NotificationAlarmReceiver"
+            android:enabled="true"/>
+
+        <receiver
+            android:name=".controller.receiver.DateTimeChangeReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.DATE_CHANGED"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".controller.receiver.BootReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <!--Google Drive Sync Services-->
+        <service
+            android:name=".controller.sync.GoogleDriveService"
+            android:exported="false"/>
+        <service
+            android:name=".controller.sync.ExportToDriveService"
+            android:exported="false"/>
+        <service
+            android:name=".controller.sync.ImportFromDriveService"
+            android:exported="false"/>
     </application>
 </manifest>

@@ -6,14 +6,19 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ProviderTestCase2;
 
-import com.darsh.couponstracker.database.CouponContract;
-import com.darsh.couponstracker.database.CouponProvider;
+import com.darsh.couponstracker.data.database.CouponContract;
+import com.darsh.couponstracker.data.database.CouponProvider;
+import com.darsh.couponstracker.data.model.Coupon;
 import com.darsh.couponstracker.logger.DebugLog;
-import com.darsh.couponstracker.model.Coupon;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 /**
  * Created by darshan on 13/3/17.
@@ -91,5 +96,25 @@ public class CouponTableProviderTest extends ProviderTestCase2<CouponProvider> {
             prev = coupon.validUntil;
         }
         cursor.close();
+    }
+
+    @Test
+    public void testCouponsToJson() {
+        ArrayList<Coupon> coupons = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            coupons.add(Coupon.getDummy());
+        }
+        Gson gson = new Gson();
+        String json = gson.toJson(coupons);
+        assertEquals(json != null && json.length() > 0, true);
+    }
+
+    @Test
+    public void testCouponsFromJson() {
+        String json = "[{\"category\":\"-9223372036854775808\",\"couponCode\":\"-9223372036854775808\",\"description\":\"-9223372036854775808\",\"id\":-9223372036854775808,\"merchant\":\"-9223372036854775808\",\"state\":0,\"validUntil\":-9223372036854775808},{\"category\":\"-9223372036854775808\",\"couponCode\":\"-9223372036854775808\",\"description\":\"-9223372036854775808\",\"id\":-9223372036854775808,\"merchant\":\"-9223372036854775808\",\"state\":0,\"validUntil\":-9223372036854775808},{\"category\":\"-9223372036854775808\",\"couponCode\":\"-9223372036854775808\",\"description\":\"-9223372036854775808\",\"id\":-9223372036854775808,\"merchant\":\"-9223372036854775808\",\"state\":0,\"validUntil\":-9223372036854775808},{\"category\":\"-9223372036854775808\",\"couponCode\":\"-9223372036854775808\",\"description\":\"-9223372036854775808\",\"id\":-9223372036854775808,\"merchant\":\"-9223372036854775808\",\"state\":0,\"validUntil\":-9223372036854775808}]";
+        Gson gson = new Gson();
+        Type collectionType = new TypeToken<ArrayList<Coupon>>(){}.getType();
+        ArrayList<Coupon> coupons = gson.fromJson(json, collectionType);
+        assertEquals(coupons != null && coupons.size() == 4, true);
     }
 }

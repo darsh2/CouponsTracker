@@ -17,9 +17,13 @@
     <string name="title_date_picker">Coupon valid until</string>
 
     <!--Coupon states used to identify if coupon was used, unused or expired-->
-    <string name="coupon_state_available">Use Coupon</string>
-    <string name="coupon_state_used">Coupon Used</string>
-    <string name="coupon_state_unavailable">Coupon unavailable</string>
+    <string name="button_coupon_state_available">Use Coupon</string>
+    <string name="button_coupon_state_used">Coupon Used</string>
+    <string name="button_coupon_state_unavailable">Coupon unavailable</string>
+
+    <string name="coupon_state_available">AVAILABLE</string>
+    <string name="coupon_state_used">USED</string>
+    <string name="coupon_state_unavailable">UNAVAILABLE</string>
 
     <!--Coupon action result toasts-->
     <string name="coupon_add_successful">Successfully added coupon.</string>
@@ -32,6 +36,9 @@
     <string name="coupon_delete_unsuccessful">Coupon delete failed. Please try again.</string>
 
     <string name="share_coupon_via">Share coupon via&#8230;</string>
+
+    <string name="coupon_state_update_successful">Successfully updated coupon state.</string>
+    <string name="coupon_state_update_unsuccessful">Coupon state update failed. Please try again.</string>
 
     <!--Menu item titles found in landing screen-->
     <string name="menu_item_my_profile">My Profile</string>
@@ -82,4 +89,41 @@
     <string name="my_profile_coupons_currently_available">Coupons currently available&#58;</string>
 
     <string name="my_profile_no_coupons_used">You have not used any coupon!</string>
+
+    <!--Strings used in NotificationCouponListFragment-->
+    <string name="no_coupons_expire_today">No coupons expire today</string>
+
+    <!--Interstitial ad unit id-->
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="test_device_id">ABCDEF012345</string>
+
+    <!--Widget-->
+    <string name="view_all_coupons">View all coupons</string>
+
+    <string name="google_drive_no_resolution">Some error occurred while connecting to Google Drive. Please try again.</string>
+
+    <!--Export to drive strings-->
+    <string name="sync_export_title">Coupons successfully exported</string>
+    <string name="sync_export_text">Coupons saved in app have been exported to Google Drive.</string>
+    <string name="error_sync_export_title">Export coupons error</string>
+    <string name="error_sync_export_text">Failed to export coupons to Google Drive. Please try again!</string>
+
+    <!--Import from drive strings-->
+    <string name="sync_import_title">Coupons successfully imported</string>
+    <string name="sync_import_text">Coupons have been imported from Google Drive and saved in app.</string>
+    <string name="error_sync_import_title">Import coupons error</string>
+    <string name="error_sync_import_text">Failed to import coupons from Google Drive. Please try again!</string>
+    <string name="error_sync_import_no_data">There is no coupons data backed in Google Drive for this account.</string>
+
+    <!--Progress dialog strings-->
+    <string name="progress_dialog_title">Please wait&#8230;</string>
+    <string name="progress_dialog_message_export">Exporting to Google Drive</string>
+    <string name="progress_dialog_message_import">Importing from Google Drive</string>
+
+    <!--Coupons expiring today-->
+    <string name="coupons_expiring_today">Coupons expiring today</string>
+    <string name="coupons_expiring_today_text_pre_n">%1$d coupons from %2$d merchants expire today</string>
+    <string name="coupons_expiring_today_text_n">%1$d coupons from %2$d merchants</string>
+    <string name="coupons_expiring_today_expanded_pre_n">%1$d coupons from %2$s expires today</string>
+    <string name="coupons_expiring_today_expanded_n">%1$d coupons from %2$s</string>
 </resources>

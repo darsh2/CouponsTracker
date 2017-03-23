@@ -1,6 +1,6 @@
 package com.darsh.couponstracker;
 
-import com.darsh.couponstracker.util.Utilities;
+import com.darsh.couponstracker.controller.util.Utilities;
 
 import junit.framework.Assert;
 

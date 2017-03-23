@@ -2,7 +2,7 @@ package com.darsh.couponstracker;
 
 import android.content.ContentValues;
 
-import com.darsh.couponstracker.database.CouponContract;
+import com.darsh.couponstracker.data.database.CouponContract;
 
 import java.util.Random;
 
