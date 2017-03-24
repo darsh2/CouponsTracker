@@ -7,10 +7,10 @@ import android.support.annotation.Nullable;
 
 import com.darsh.couponstracker.R;
 import com.darsh.couponstracker.controller.event.SyncCompleteEvent;
-import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.controller.notification.CouponsTrackerNotification;
 import com.darsh.couponstracker.controller.util.Constants;
 import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.logger.DebugLog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * Created by darshan on 22/3/17.
  */
 
-public class GoogleDriveService extends IntentService {
+public abstract class GoogleDriveService extends IntentService {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({ SyncMode.EXPORT, SyncMode.IMPORT })
     public @interface SyncMode {
@@ -69,21 +69,22 @@ public class GoogleDriveService extends IntentService {
             return;
         }
 
-        handleIntent();
+        boolean isSuccess = handleIntent();
         googleApiClient.disconnect();
-
+        Utilities.updateSharedPreferences(getApplicationContext(), false, -1);
         DebugLog.logMessage("Completed sync task");
 
-        Utilities.updateSharedPreferences(getApplicationContext(), false, -1);
+        if (!isSuccess) {
+            DebugLog.logMessage("Sync not successful");
+            return;
+        }
 
         EventBus.getDefault().post(new SyncCompleteEvent());
         CouponsTrackerNotification notification = new CouponsTrackerNotification(getApplicationContext());
         notification.showSyncSuccessNotification(syncMode);
     }
 
-    protected void handleIntent() {
-        DebugLog.logMethod();
-    }
+    protected abstract boolean handleIntent();
 
     protected final DriveFile getDriveFile() {
         DebugLog.logMethod();

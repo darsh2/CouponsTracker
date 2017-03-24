@@ -3,8 +3,8 @@ package com.darsh.couponstracker.controller.sync;
 import android.content.ContentValues;
 
 import com.darsh.couponstracker.data.database.CouponContract;
-import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.data.model.Coupon;
+import com.darsh.couponstracker.logger.DebugLog;
 import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
@@ -28,20 +28,20 @@ public class ImportFromDriveService extends GoogleDriveService {
     }
 
     @Override
-    protected void handleIntent() {
+    protected boolean handleIntent() {
         DebugLog.logMethod();
         // Get coupon data json file from app folder
         DriveFile driveFile = getDriveFile();
         if (driveFile == null) {
             showError("No coupon data available in drive");
-            return;
+            return false;
         }
 
         // Get the json array of coupons
         String couponsJson = getCouponsJson(driveFile);
         if (couponsJson == null) {
             showError("Error while reading file contents");
-            return;
+            return false;
         }
 
         // Bulk insert the coupons in db
@@ -49,6 +49,7 @@ public class ImportFromDriveService extends GoogleDriveService {
                 CouponContract.CouponTable.URI,
                 getContentValuesArray(couponsJson)
         );
+        return true;
     }
 
     private String getCouponsJson(DriveFile driveFile) {

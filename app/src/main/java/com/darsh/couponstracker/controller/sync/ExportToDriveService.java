@@ -3,8 +3,8 @@ package com.darsh.couponstracker.controller.sync;
 import android.database.Cursor;
 
 import com.darsh.couponstracker.data.database.CouponContract;
-import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.data.model.Coupon;
+import com.darsh.couponstracker.logger.DebugLog;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveContents;
@@ -30,7 +30,7 @@ public class ExportToDriveService extends GoogleDriveService {
     }
 
     @Override
-    protected void handleIntent() {
+    protected boolean handleIntent() {
         DebugLog.logMethod();
         DriveFile driveFile = getDriveFile();
         boolean isNewFile = driveFile == null;
@@ -39,22 +39,24 @@ public class ExportToDriveService extends GoogleDriveService {
                 : openDriveFileInEditMode(driveFile);
         if (driveContents == null) {
             showError("Failed to create drive file");
-            return;
+            return false;
         }
 
         String couponsJson = getCouponsJson();
         if (couponsJson == null) {
             driveContents.discard(getGoogleApiClient());
             showError("Error while reading coupon data");
-            return;
+            return false;
         }
 
         if (!writeToDriveFile(driveContents, couponsJson, isNewFile)) {
             driveContents.discard(getGoogleApiClient());
             showError("Error occurred while exporting to Google drive");
-            return;
+            return false;
         }
+
         driveContents.discard(getGoogleApiClient());
+        return true;
     }
 
     private DriveContents createDriveFile() {
