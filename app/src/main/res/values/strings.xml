@@ -122,8 +122,4 @@
 
     <!--Coupons expiring today-->
     <string name="coupons_expiring_today">Coupons expiring today</string>
-    <string name="coupons_expiring_today_text_pre_n">%1$d coupons from %2$d merchants expire today</string>
-    <string name="coupons_expiring_today_text_n">%1$d coupons from %2$d merchants</string>
-    <string name="coupons_expiring_today_expanded_pre_n">%1$d coupons from %2$s expires today</string>
-    <string name="coupons_expiring_today_expanded_n">%1$d coupons from %2$s</string>
 </resources>
