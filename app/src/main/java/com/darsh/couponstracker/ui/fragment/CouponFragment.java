@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -24,11 +25,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 
 import com.darsh.couponstracker.R;
-import com.darsh.couponstracker.data.database.CouponContract;
-import com.darsh.couponstracker.logger.DebugLog;
-import com.darsh.couponstracker.data.model.Coupon;
 import com.darsh.couponstracker.controller.util.Constants;
 import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.data.database.CouponContract;
+import com.darsh.couponstracker.data.model.Coupon;
+import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.ui.view.TextInputAutoCompleteTextView;
 
 import java.lang.annotation.Retention;
@@ -350,10 +351,23 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
         DebugLog.logMethod();
         boolean isEnabled = mode != Mode.VIEW;
         DebugLog.logMessage("isEnabled: " + isEnabled);
+        inputLayoutMerchant.setEnabled(isEnabled);
         autoCompleteMerchant.setEnabled(isEnabled);
+        autoCompleteMerchant.setFocusable(isEnabled);
+        autoCompleteMerchant.setFocusableInTouchMode(isEnabled);
+
+        inputLayoutCategory.setEnabled(isEnabled);
         autoCompleteCategory.setEnabled(isEnabled);
+        autoCompleteCategory.setFocusable(isEnabled);
+        autoCompleteCategory.setFocusableInTouchMode(isEnabled);
+
+        inputLayoutValidUntil.setEnabled(isEnabled);
         editTextValidUntil.setEnabled(isEnabled);
+
+        inputLayoutCouponCode.setEnabled(isEnabled);
         editTextCouponCode.setEnabled(isEnabled);
+
+        inputLayoutDescription.setEnabled(isEnabled);
         editTextDescription.setEnabled(isEnabled);
     }
 

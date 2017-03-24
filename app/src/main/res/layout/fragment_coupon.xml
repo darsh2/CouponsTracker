@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
-        android:layout_above="@+id/text_view_coupon_state">
+        android:layout_above="@+id/button_coupon_state">
 
         <LinearLayout
             android:orientation="vertical"
@@ -42,7 +42,8 @@
                     android:id="@+id/auto_complete_merchant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_merchant_name"/>
+                    android:hint="@string/hint_merchant_name"
+                    android:textColor="@drawable/edit_text_state_color"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -56,7 +57,8 @@
                     android:id="@+id/auto_complete_category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_category"/>
+                    android:hint="@string/hint_category"
+                    android:textColor="@drawable/edit_text_state_color"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -71,7 +73,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_valid_until"
                     android:focusable="false"
-                    android:focusableInTouchMode="false"/>
+                    android:focusableInTouchMode="false"
+                    android:textColor="@drawable/edit_text_state_color"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -84,7 +87,8 @@
                     android:id="@+id/edit_text_coupon_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_coupon_code"/>
+                    android:hint="@string/hint_coupon_code"
+                    android:textColor="@drawable/edit_text_state_color"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -98,7 +102,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textLongMessage"
-                    android:hint="@string/hint_description"/>
+                    android:hint="@string/hint_description"
+                    android:textColor="@drawable/edit_text_state_color"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
     </ScrollView>
