@@ -95,6 +95,7 @@ public abstract class GoogleDriveService extends IntentService {
         DebugLog.logMessage("Status code: " + metadataBufferResult.getStatus().getStatusCode()
                 + "\nStatus message: " + metadataBufferResult.getStatus().getStatusMessage());
         if (!metadataBufferResult.getStatus().isSuccess()) {
+            metadataBufferResult.release();
             DebugLog.logMessage("MetadataBufferResult failure");
             return null;
         }
@@ -102,9 +103,11 @@ public abstract class GoogleDriveService extends IntentService {
         MetadataBuffer metadataBuffer = metadataBufferResult.getMetadataBuffer();
         DebugLog.logMessage("MetadataBuffer count: " + metadataBuffer.getCount());
         if (metadataBuffer.getCount() == 0) {
+            metadataBuffer.release();
             return null;
         }
         DriveId driveId = metadataBuffer.get(0).getDriveId();
+        metadataBuffer.release();
         metadataBufferResult.release();
         return driveId.asDriveFile();
     }

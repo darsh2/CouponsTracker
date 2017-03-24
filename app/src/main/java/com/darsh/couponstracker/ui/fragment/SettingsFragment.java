@@ -10,6 +10,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -65,6 +66,12 @@ public class SettingsFragment extends PreferenceFragment
     private RingtonePreference ringtonePreference;
 
     private GoogleApiClient googleApiClient;
+
+    /**
+     * Boolean that indicates whether any call to {@link GoogleApiClient#connect()} failed.
+     * It is reset after every successful call.
+     */
+    private boolean connectionFailed = false;
 
     private int syncMode = -1;
     private boolean showDialog = false;
@@ -278,6 +285,7 @@ public class SettingsFragment extends PreferenceFragment
             DebugLog.logMessage("GoogleApiClient is already connected or is currently connecting");
             return;
         }
+        Utilities.showToast(getActivity(), getString(R.string.progress_dialog_title));
         googleApiClient.connect();
     }
 
@@ -285,6 +293,26 @@ public class SettingsFragment extends PreferenceFragment
     public void onConnected(@Nullable Bundle bundle) {
         DebugLog.logMethod();
         googleApiClient.disconnect();
+
+        /*
+        If it is the first time a new account is added to the device, the first call to
+        import or export data from drive always fails. Hence if connectionFailed is true,
+        this implies that a new account was added to the device. Hence reconnect to
+        googleApiClient.
+         */
+        if (connectionFailed) {
+            DebugLog.logMessage("Connection failed first time, reconnect");
+            //reset value
+            connectionFailed = false;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    DebugLog.logMessage("After 2 seconds");
+                    connectGoogleApiClient();
+                }
+            }, 2000);
+            return;
+        }
 
         Utilities.updateSharedPreferences(getActivity().getApplicationContext(), true, syncMode);
         showProgressDialog();
@@ -318,6 +346,7 @@ public class SettingsFragment extends PreferenceFragment
 
         try {
             connectionResult.startResolutionForResult(getActivity(), Constants.CONNECTION_RESOLUTION_REQUEST_CODE);
+            connectionFailed = true;
         } catch (IntentSender.SendIntentException e) {
             // Unable to resolve, message user appropriately
             e.printStackTrace();
