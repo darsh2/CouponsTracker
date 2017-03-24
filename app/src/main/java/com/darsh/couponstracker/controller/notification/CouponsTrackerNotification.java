@@ -102,7 +102,8 @@ public class CouponsTrackerNotification {
                 .setWhen(System.currentTimeMillis())
                 .setLargeIcon(Utilities.getBitmap(context, largeIconId))
                 .setSmallIcon(smallIconId)
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setAutoCancel(true);
         // Cancel any previously shown notification
         NotificationManagerCompat.from(context).cancel(TAG, SYNC_NOTIFICATION_ID);
         // Show notification
@@ -168,9 +169,15 @@ public class CouponsTrackerNotification {
         notificationStyle.setBigContentTitle(contentTitle);
         for (Map.Entry<String, Integer> entry : merchantCouponCountMap.entrySet()) {
             numTotalCoupons += entry.getValue();
-            notificationStyle.addLine(String.format(baseNotificationLine, entry.getValue(), entry.getValue()));
+            notificationStyle.addLine(String.format(baseNotificationLine, entry.getValue(), entry.getKey()));
         }
         String contentText = String.format(Locale.ENGLISH, baseContextText, numTotalCoupons, numMerchants);
+
+        // Do not show notification if there are no coupons expiring today
+        if (numTotalCoupons == 0) {
+            notificationStyle = null;
+            return;
+        }
 
         Intent contentIntent = new Intent(context.getApplicationContext(), ContainerActivity.class);
         contentIntent.putExtra(Constants.BUNDLE_EXTRA_FRAGMENT_TYPE, Constants.FragmentType.NOTIFICATION_FRAGMENT);
@@ -187,7 +194,8 @@ public class CouponsTrackerNotification {
                 .setLargeIcon(Utilities.getBitmap(context, R.drawable.ic_notifications_24dp))
                 .setSmallIcon(smallIconId)
                 .setWhen(System.currentTimeMillis())
-                .setContentIntent(contentPendingIntent);
+                .setContentIntent(contentPendingIntent)
+                .setAutoCancel(true);
 
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context.getApplicationContext());

@@ -5,8 +5,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.controller.receiver.AppWidgetAlarmReceiver;
+import com.darsh.couponstracker.logger.DebugLog;
 
 import java.util.Calendar;
 
@@ -22,7 +22,7 @@ public class AppWidgetAlarmManager {
         PendingIntent pendingIntent = getPendingIntent(context);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 2);
-        calendar.set(Calendar.MINUTE, 20);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

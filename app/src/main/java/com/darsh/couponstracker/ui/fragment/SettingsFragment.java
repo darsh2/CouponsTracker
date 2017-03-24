@@ -23,13 +23,13 @@ import android.widget.TimePicker;
 
 import com.darsh.couponstracker.R;
 import com.darsh.couponstracker.controller.event.SyncCompleteEvent;
-import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.controller.sync.ExportToDriveService;
 import com.darsh.couponstracker.controller.sync.GoogleDriveService;
 import com.darsh.couponstracker.controller.sync.ImportFromDriveService;
 import com.darsh.couponstracker.controller.util.Constants;
 import com.darsh.couponstracker.controller.util.NotificationAlarmManager;
 import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.logger.DebugLog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -59,7 +59,7 @@ public class SettingsFragment extends PreferenceFragment
     public static final String KEY_NOTIFICATION_RINGTONE = "notification_ringtone";
     public static final String KEY_NOTIFICATION_VIBRATE = "notification_vibrate";
 
-    public static final int DEFAULT_NOTIFICATION_TIME = 220;
+    public static final int DEFAULT_NOTIFICATION_TIME = 900;
 
     private Preference timePreference;
     private RingtonePreference ringtonePreference;
@@ -297,7 +297,6 @@ public class SettingsFragment extends PreferenceFragment
         }
         googleDriveService.setAction(Constants.ACTION_GOOGLE_DRIVE_SYNC);
         getActivity().startService(googleDriveService);
-
     }
 
     @Override
