@@ -97,8 +97,8 @@
     <string name="no_coupons_expire_today">No coupons expire today</string>
 
     <!--Interstitial ad unit id-->
-    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
-    <string name="test_device_id">ABCDEF012345</string>
+    <string name="interstitial_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="test_device_id" translatable="false">ABCDEF012345</string>
 
     <!--Widget-->
     <string name="view_all_coupons">View all coupons</string>
