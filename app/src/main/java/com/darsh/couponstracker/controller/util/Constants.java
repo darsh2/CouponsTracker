@@ -30,7 +30,18 @@ public class Constants {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({ FragmentType.MY_PROFILE_FRAGMENT, FragmentType.NOTIFICATION_FRAGMENT })
     public @interface FragmentType {
+        /**
+         * Integer constant that is used to denote
+         * {@link com.darsh.couponstracker.ui.fragment.MyProfileFragment
+         * MyProfileFragment}
+         */
         int MY_PROFILE_FRAGMENT = 2001;
+
+        /**
+         * Integer constant that is used to denote
+         * {@link com.darsh.couponstracker.ui.fragment.NotificationCouponListFragment
+         * NotificationCouponListFragment}
+         */
         int NOTIFICATION_FRAGMENT = 2002;
     }
 

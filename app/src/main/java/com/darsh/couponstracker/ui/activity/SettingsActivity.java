@@ -7,9 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.darsh.couponstracker.R;
-import com.darsh.couponstracker.ui.fragment.SettingsFragment;
-import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.controller.util.Constants;
+import com.darsh.couponstracker.logger.DebugLog;
+import com.darsh.couponstracker.ui.fragment.SettingsFragment;
 
 /**
  * Created by darshan on 18/3/17.

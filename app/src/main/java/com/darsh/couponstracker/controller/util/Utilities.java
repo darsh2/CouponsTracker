@@ -10,8 +10,8 @@ import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-import com.darsh.couponstracker.ui.activity.SettingsActivity;
 import com.darsh.couponstracker.logger.DebugLog;
+import com.darsh.couponstracker.ui.activity.SettingsActivity;
 import com.darsh.couponstracker.ui.widget.CouponWidgetProvider;
 
 import java.util.Calendar;
@@ -162,6 +162,7 @@ public class Utilities {
      * @param syncMode Integer indicating
      */
     public static synchronized void updateSharedPreferences(Context context, boolean isSyncRunning, int syncMode) {
+        DebugLog.logMethod();
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context.getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -176,6 +177,7 @@ public class Utilities {
      * {@link SettingsActivity} if Drive sync is still in progress.
      */
     public static void navigateIfSyncInProgress(Context context) {
+        DebugLog.logMethod();
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context.getApplicationContext());
         if (sharedPreferences.getBoolean(Constants.IS_SYNC_RUNNING, false)) {

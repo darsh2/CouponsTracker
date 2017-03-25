@@ -39,8 +39,6 @@ public class ContainerActivity extends AppCompatActivity implements CouponListAd
         setContentView(R.layout.activity_container);
         DebugLog.logMethod();
 
-        Utilities.navigateIfSyncInProgress(getApplicationContext());
-
         isTablet = getResources().getBoolean(R.bool.is_tablet);
 
         fragmentType = getIntent().getIntExtra(Constants.BUNDLE_EXTRA_FRAGMENT_TYPE, -1);
@@ -49,8 +47,12 @@ public class ContainerActivity extends AppCompatActivity implements CouponListAd
             return;
         }
 
+        /*
+        While this is not a launcher activity, this activity can be called when a daily
+        notification is clicked. Hence at this instant, if there is an ongoing Drive
+        sync task in progress, always navigate to SettingsActivity.
+         */
         Utilities.navigateIfSyncInProgress(getApplicationContext());
-
 
         if (fragmentType == Constants.FragmentType.MY_PROFILE_FRAGMENT) {
             // Load MyProfileFragment only if it is not already present
@@ -61,7 +63,7 @@ public class ContainerActivity extends AppCompatActivity implements CouponListAd
                         .commit();
             }
         } else if (fragmentType == Constants.FragmentType.NOTIFICATION_FRAGMENT) {
-            // Load MyProfileFragment only if it is not already present
+            // Load NotificationCouponListFragment only if it is not already present
             if (getSupportFragmentManager().findFragmentByTag(NotificationCouponListFragment.TAG) == null) {
                 getSupportFragmentManager()
                         .beginTransaction()
@@ -85,6 +87,13 @@ public class ContainerActivity extends AppCompatActivity implements CouponListAd
         showCouponFromFragment(coupon);
     }
 
+    /**
+     * Loads the passed coupon in a CouponFragment. If the device is a
+     * phone, starts {@link CouponActivity} to handle loading of the coupon.
+     * Else, loads coupon in {@link CouponFragment} found in the tablet
+     * layout.
+     * @param coupon Coupon to be shown
+     */
     private void showCouponFromFragment(Coupon coupon) {
         DebugLog.logMethod();
         Bundle extras = getExtras(CouponFragment.Mode.VIEW, coupon);
@@ -121,12 +130,17 @@ public class ContainerActivity extends AppCompatActivity implements CouponListAd
         return extras;
     }
 
+    /**
+     * Returns the fragment container id to which a fragment is to be loaded in.
+     * If device is a phone, there is only a single container. Else if it is to
+     * show a coupon, return the right container, else the left.
+     */
     private int getFragmentContainerId(boolean isCouponView) {
         DebugLog.logMethod();
-        int id = R.id.fragment_container;
-        if (isTablet) {
-            id = R.id.fragment_container_left;
+        if (!isTablet) {
+            return R.id.fragment_container;
         }
+        int id = R.id.fragment_container_left;
         if (isCouponView) {
             id = R.id.fragment_container_right;
         }
@@ -148,12 +162,21 @@ public class ContainerActivity extends AppCompatActivity implements CouponListAd
     public void onBackPressed() {
         DebugLog.logMethod();
         DebugLog.logMessage("BackStackEntryCount: " + getSupportFragmentManager().getBackStackEntryCount());
+        /*
+        If it is not MyProfileFragment or there still are coupons displayed by
+        CouponFragment, do not load interstitial ad.
+         */
         if (fragmentType != Constants.FragmentType.MY_PROFILE_FRAGMENT
                 || getSupportFragmentManager().getBackStackEntryCount() > 0) {
             super.onBackPressed();
             return;
         }
+
         DebugLog.logMessage("Show Interstitial Ad");
+        /*
+        If the interstitial ad is loaded, then show. Else delegate call to the
+        super method without waiting for the ad to load.
+         */
         if (interstitialAd != null && interstitialAd.isLoaded()) {
             interstitialAd.show();
         } else {
@@ -175,6 +198,9 @@ public class ContainerActivity extends AppCompatActivity implements CouponListAd
         requestNewInterstitial();
     }
 
+    /**
+     * Loads a new interstitial ad.
+     */
     private void requestNewInterstitial() {
         DebugLog.logMethod();
         AdRequest adRequest = new AdRequest.Builder()

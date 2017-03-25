@@ -33,6 +33,10 @@ import butterknife.Unbinder;
  */
 
 public class CouponListActivity extends AppCompatActivity implements CouponListAdapter.OnCouponClickListener {
+    /**
+     * Reference to the Unbinder contract when the view is bound using ButterKnife.
+     * This is required to unbind the views on destroying the activity.
+     */
     private Unbinder unbinder;
 
     @BindView(R.id.toolbar)
@@ -60,7 +64,17 @@ public class CouponListActivity extends AppCompatActivity implements CouponListA
 
         DebugLog.logMethod();
 
+        /*
+        By default the widget alarm to update the widget and notifications
+        for coupons that expire each day are enabled. Hence, start the alarms
+        if this is the first time the app is launched.
+         */
         Utilities.setAlarmsOnFirstLaunch(getApplicationContext());
+
+        /*
+        Always navigate to SettingsActivity if an import or export coupons
+        task is running.
+         */
         Utilities.navigateIfSyncInProgress(getApplicationContext());
 
         isTablet = getResources().getBoolean(R.bool.is_tablet);
@@ -130,6 +144,9 @@ public class CouponListActivity extends AppCompatActivity implements CouponListA
         viewPager.setAdapter(adapter);
     }
 
+    /**
+     * Loads the appropriate coupon that was clicked in the widget.
+     */
     private void handleWidgetItemClick() {
         Intent intent = getIntent();
         if (intent == null || intent.getExtras() == null) {
@@ -153,6 +170,12 @@ public class CouponListActivity extends AppCompatActivity implements CouponListA
         }
     }
 
+    /**
+     * Launches the CouponActivity which then loads the specified coupon
+     * in the CouponFragment. This method is only called on phones.
+     * @param mode Mode can be one of CREATE, EDIT or VIEW
+     * @param coupon Coupon to be shown
+     */
     private void startCouponActivity(int mode, Coupon coupon) {
         DebugLog.logMethod();
         Intent intent = new Intent(this, CouponActivity.class);
@@ -160,6 +183,13 @@ public class CouponListActivity extends AppCompatActivity implements CouponListA
         startActivity(intent);
     }
 
+    /**
+     * Loads the passed coupon in the right fragment container in this
+     * activity's layout. This is called only on tablets as tablets screen
+     * have a master-detail layout.
+     * @param mode Mode can be one of CREATE, EDIT or VIEW
+     * @param coupon Coupon to be shown
+     */
     private void loadCouponFragment(int mode, Coupon coupon) {
         DebugLog.logMethod();
         CouponFragment couponFragment = new CouponFragment();
