@@ -23,6 +23,7 @@ import com.darsh.couponstracker.data.database.CouponContract;
 import com.darsh.couponstracker.data.model.Coupon;
 import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.ui.activity.ContainerActivity;
+import com.darsh.couponstracker.ui.activity.CouponListActivity;
 import com.darsh.couponstracker.ui.fragment.SettingsFragment;
 
 import java.util.HashMap;
@@ -104,6 +105,15 @@ public class CouponsTrackerNotification {
                 .setSmallIcon(smallIconId)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setAutoCancel(true);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addNextIntent(new Intent(context, CouponListActivity.class));
+        PendingIntent contentPendingIntent = stackBuilder.getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        builder.setContentIntent(contentPendingIntent);
+
         // Cancel any previously shown notification
         NotificationManagerCompat.from(context).cancel(TAG, SYNC_NOTIFICATION_ID);
         // Show notification
@@ -179,14 +189,6 @@ public class CouponsTrackerNotification {
             return;
         }
 
-        Intent contentIntent = new Intent(context.getApplicationContext(), ContainerActivity.class);
-        contentIntent.putExtra(Constants.BUNDLE_EXTRA_FRAGMENT_TYPE, Constants.FragmentType.NOTIFICATION_FRAGMENT);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addNextIntentWithParentStack(contentIntent);
-        PendingIntent contentPendingIntent = stackBuilder.getPendingIntent(
-                0,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
@@ -194,11 +196,20 @@ public class CouponsTrackerNotification {
                 .setLargeIcon(Utilities.getBitmap(context, R.drawable.ic_notifications_24dp))
                 .setSmallIcon(smallIconId)
                 .setWhen(System.currentTimeMillis())
-                .setContentIntent(contentPendingIntent)
                 .setAutoCancel(true);
 
+        Intent contentIntent = new Intent(context, ContainerActivity.class);
+        contentIntent.putExtra(Constants.BUNDLE_EXTRA_FRAGMENT_TYPE, Constants.FragmentType.NOTIFICATION_FRAGMENT);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addNextIntentWithParentStack(contentIntent);
+        PendingIntent contentPendingIntent = stackBuilder.getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        builder.setContentIntent(contentPendingIntent);
+
         SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(context.getApplicationContext());
+                .getDefaultSharedPreferences(context);
         String ringtone = sharedPreferences.getString(SettingsFragment.KEY_NOTIFICATION_RINGTONE, "");
         boolean shouldVibrate = sharedPreferences.getBoolean(SettingsFragment.KEY_NOTIFICATION_VIBRATE, true);
         if (ringtone.length() == 0) {
