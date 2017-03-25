@@ -122,4 +122,9 @@
 
     <!--Coupons expiring today-->
     <string name="coupons_expiring_today">Coupons expiring today</string>
+
+    <!--Content description strings-->
+    <string name="content_description_fab">Add new coupons by clicking this button</string>
+    <string name="content_description_coupon_state">Indicates whether coupon is used or still available</string>
+    <string name="content_description_my_profile">Find information about the coupons you have used and the ones available</string>
 </resources>

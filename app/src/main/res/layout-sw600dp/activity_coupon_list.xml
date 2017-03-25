@@ -51,7 +51,8 @@
             android:src="@drawable/ic_add_white_18dp"
             app:layout_anchor="@id/view_pager"
             app:layout_anchorGravity="bottom|end"
-            app:borderWidth="0dp"/>
+            app:borderWidth="0dp"
+            android:contentDescription="@string/content_description_fab"/>
     </android.support.design.widget.CoordinatorLayout>
 
     <LinearLayout

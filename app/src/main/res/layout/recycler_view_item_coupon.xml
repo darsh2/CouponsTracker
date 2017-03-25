@@ -68,7 +68,8 @@
                 android:id="@+id/image_view_coupon_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:src="@drawable/ic_add_shopping_cart_orange_24dp"/>
+                tools:src="@drawable/ic_add_shopping_cart_orange_24dp"
+                android:contentDescription="@string/content_description_coupon_state"/>
 
             <TextView
                 android:id="@+id/text_view_coupon_state"

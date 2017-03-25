@@ -26,7 +26,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_account_circle_white_48dp"/>
+            android:src="@drawable/ic_account_circle_white_48dp"
+            android:contentDescription="@string/content_description_my_profile"/>
 
         <TextView
             android:id="@+id/text_view_coupons_used"
