@@ -7,15 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.darsh.couponstracker.R;
+import com.darsh.couponstracker.controller.util.Constants;
+import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.data.model.Coupon;
+import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.ui.adapter.CouponListAdapter;
 import com.darsh.couponstracker.ui.adapter.CouponListCursorAdapter;
 import com.darsh.couponstracker.ui.fragment.CouponFragment;
 import com.darsh.couponstracker.ui.fragment.MyProfileFragment;
 import com.darsh.couponstracker.ui.fragment.NotificationCouponListFragment;
-import com.darsh.couponstracker.logger.DebugLog;
-import com.darsh.couponstracker.data.model.Coupon;
-import com.darsh.couponstracker.controller.util.Constants;
-import com.darsh.couponstracker.controller.util.Utilities;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -156,6 +156,8 @@ public class ContainerActivity extends AppCompatActivity implements CouponListAd
         DebugLog.logMessage("Show Interstitial Ad");
         if (interstitialAd != null && interstitialAd.isLoaded()) {
             interstitialAd.show();
+        } else {
+            super.onBackPressed();
         }
     }
 
