@@ -104,15 +104,15 @@
 
     <!--Export to drive strings-->
     <string name="sync_export_title">Coupons successfully exported</string>
-    <string name="sync_export_text">Coupons saved in app have been exported to Google Drive.</string>
+    <string name="sync_export_text">Coupons exported to Google Drive.</string>
     <string name="error_sync_export_title">Export coupons error</string>
-    <string name="error_sync_export_text">Failed to export coupons to Google Drive. Please try again!</string>
+    <string name="error_sync_export_text">Operation failed. Please try again!</string>
 
     <!--Import from drive strings-->
     <string name="sync_import_title">Coupons successfully imported</string>
-    <string name="sync_import_text">Coupons have been imported from Google Drive and saved in app.</string>
+    <string name="sync_import_text">Coupons imported from Google Drive.</string>
     <string name="error_sync_import_title">Import coupons error</string>
-    <string name="error_sync_import_text">Failed to import coupons from Google Drive. Please try again!</string>
+    <string name="error_sync_import_text">Operation failed. Please try again!</string>
     <string name="error_sync_import_no_data">There is no coupons data backed in Google Drive for this account.</string>
 
     <!--Progress dialog strings-->
