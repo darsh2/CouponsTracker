@@ -27,12 +27,15 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.darsh.couponstracker.R;
+import com.darsh.couponstracker.controller.event.FabVisibilityChangeEvent;
 import com.darsh.couponstracker.controller.util.Constants;
 import com.darsh.couponstracker.controller.util.Utilities;
 import com.darsh.couponstracker.data.database.CouponContract;
 import com.darsh.couponstracker.data.model.Coupon;
 import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.ui.view.TextInputAutoCompleteTextView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -134,6 +137,8 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
     @BindView(R.id.button_coupon_state)
     Button buttonCouponState;
 
+    public boolean isTablet;
+
     public CouponFragment() {
     }
 
@@ -142,6 +147,7 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         DebugLog.logMethod();
         handler = new Handler();
+        isTablet = getResources().getBoolean(R.bool.is_tablet);
 
         View view = inflater.inflate(R.layout.fragment_coupon, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -360,6 +366,19 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
 
     private void setViewState() {
         DebugLog.logMethod();
+        if (isTablet && (mode == Mode.CREATE || mode == Mode.EDIT)) {
+            /*
+            Delay is necessary because onOrientationChange, sometimes the event is
+            posted before onStart of CouponListActivity is called.
+             */
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    EventBus.getDefault().post(new FabVisibilityChangeEvent(false));
+                }
+            }, 500);
+        }
+
         boolean isEnabled = mode != Mode.VIEW;
         DebugLog.logMessage("isEnabled: " + isEnabled);
         inputLayoutMerchant.setEnabled(isEnabled);
@@ -771,6 +790,10 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
     @Override
     public void onDestroyView() {
         DebugLog.logMethod();
+        if (isTablet && (mode == Mode.CREATE || mode == Mode.EDIT)) {
+            EventBus.getDefault().post(new FabVisibilityChangeEvent(true));
+        }
+
         // Remove all callbacks and messages from the handler's message queue
         handler.removeCallbacksAndMessages(null);
         handler = null;

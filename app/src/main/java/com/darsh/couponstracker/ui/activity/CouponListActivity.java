@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.darsh.couponstracker.R;
+import com.darsh.couponstracker.controller.event.FabVisibilityChangeEvent;
 import com.darsh.couponstracker.controller.util.Constants;
 import com.darsh.couponstracker.controller.util.Utilities;
 import com.darsh.couponstracker.data.database.CouponContract;
@@ -24,6 +25,10 @@ import com.darsh.couponstracker.ui.adapter.FragmentTabsAdapter;
 import com.darsh.couponstracker.ui.fragment.CouponFragment;
 import com.darsh.couponstracker.ui.fragment.PastCouponListFragment;
 import com.darsh.couponstracker.ui.fragment.UpcomingCouponListFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -279,6 +284,31 @@ public class CouponListActivity extends AppCompatActivity implements CouponListA
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             Utilities.updateSampleDataAdded(getApplicationContext());
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (isTablet) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        if (isTablet) {
+            EventBus.getDefault().unregister(this);
+        }
+        super.onStop();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFabVisibilityChangeEvent(FabVisibilityChangeEvent event) {
+        if (event.showFab) {
+            fab.setVisibility(View.VISIBLE);
+        } else {
+            fab.setVisibility(View.INVISIBLE);
         }
     }
 }

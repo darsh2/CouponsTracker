@@ -5,10 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.darsh.couponstracker.R;
-import com.darsh.couponstracker.ui.fragment.CouponFragment;
-import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.controller.util.Constants;
 import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.logger.DebugLog;
+import com.darsh.couponstracker.ui.fragment.CouponFragment;
 
 /**
  * Created by darshan on 11/3/17.
