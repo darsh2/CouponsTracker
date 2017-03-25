@@ -38,16 +38,6 @@ public class CouponTableProviderTest extends ProviderTestCase2<CouponProvider> {
     }
 
     @Test
-    public void minimalCouponInsertTest() {
-
-    }
-
-    @Test
-    public void invalidCouponInsertTest() {
-
-    }
-
-    @Test
     public void couponBulkInsertTest() {
         int numCouponsToInsert = 6;
         ContentValues[] contentValuesArray = new ContentValues[numCouponsToInsert];

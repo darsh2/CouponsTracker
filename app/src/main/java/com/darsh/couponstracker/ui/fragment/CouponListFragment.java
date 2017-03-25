@@ -12,12 +12,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.darsh.couponstracker.R;
-import com.darsh.couponstracker.ui.adapter.CouponListAdapter;
 import com.darsh.couponstracker.controller.event.DataUpdateEvent;
-import com.darsh.couponstracker.logger.DebugLog;
-import com.darsh.couponstracker.data.model.Coupon;
 import com.darsh.couponstracker.controller.util.Constants;
 import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.data.model.Coupon;
+import com.darsh.couponstracker.logger.DebugLog;
+import com.darsh.couponstracker.ui.adapter.CouponListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

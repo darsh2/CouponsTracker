@@ -7,5 +7,4 @@ package com.darsh.couponstracker.controller.event;
  */
 
 public class DataUpdateEvent {
-
 }

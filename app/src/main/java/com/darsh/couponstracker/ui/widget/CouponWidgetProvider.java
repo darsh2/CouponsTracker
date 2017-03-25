@@ -10,9 +10,9 @@ import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 
 import com.darsh.couponstracker.R;
+import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.ui.activity.CouponActivity;
 import com.darsh.couponstracker.ui.activity.CouponListActivity;
-import com.darsh.couponstracker.logger.DebugLog;
 
 /**
  * Created by darshan on 21/3/17.

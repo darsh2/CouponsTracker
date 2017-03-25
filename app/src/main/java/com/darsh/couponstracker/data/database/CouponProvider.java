@@ -11,8 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.darsh.couponstracker.controller.event.DataUpdateEvent;
-import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.logger.DebugLog;
 
 import org.greenrobot.eventbus.EventBus;
 

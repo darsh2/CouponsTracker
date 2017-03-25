@@ -12,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.darsh.couponstracker.R;
-import com.darsh.couponstracker.logger.DebugLog;
-import com.darsh.couponstracker.data.model.Coupon;
 import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.data.model.Coupon;
+import com.darsh.couponstracker.logger.DebugLog;
 
 import java.util.ArrayList;
 

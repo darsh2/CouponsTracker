@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.controller.util.AppWidgetAlarmManager;
 import com.darsh.couponstracker.controller.util.NotificationAlarmManager;
+import com.darsh.couponstracker.logger.DebugLog;
 
 /**
  * <p>Created by darshan on 21/3/17.

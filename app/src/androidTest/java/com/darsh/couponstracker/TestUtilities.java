@@ -35,14 +35,6 @@ public class TestUtilities {
 
     private static String[] DESCRIPTION = { "Free rides", "Extra talktime", "50% cashbacks", "Buy 1 get 1 free", "Free premium trial" };
 
-    static ContentValues getMinimalCoupon() {
-        Random random = new Random(System.currentTimeMillis());
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(CouponContract.CouponTable.COLUMN_MERCHANT, MERCHANTS[random.nextInt(MERCHANTS.length)]);
-        contentValues.put(CouponContract.CouponTable.COLUMN_VALID_UNTIL, VALID_UNTIL_RANDOM[random.nextInt(VALID_UNTIL_RANDOM.length)]);
-        return contentValues;
-    }
-
     static ContentValues getCompleteCoupon() {
         Random random = new Random(System.currentTimeMillis());
         ContentValues contentValues = new ContentValues();
@@ -51,12 +43,6 @@ public class TestUtilities {
         contentValues.put(CouponContract.CouponTable.COLUMN_VALID_UNTIL, VALID_UNTIL_RANDOM[random.nextInt(VALID_UNTIL_RANDOM.length)]);
         contentValues.put(CouponContract.CouponTable.COLUMN_COUPON_CODE, COUPON_CODES[random.nextInt(COUPON_CODES.length)]);
         contentValues.put(CouponContract.CouponTable.COLUMN_DESCRIPTION, DESCRIPTION[random.nextInt(DESCRIPTION.length)]);
-        return contentValues;
-    }
-
-    static ContentValues getUsedCoupon() {
-        ContentValues contentValues = getCompleteCoupon();
-        contentValues.put(CouponContract.CouponTable.COLUMN_COUPON_STATE, 1);
         return contentValues;
     }
 }

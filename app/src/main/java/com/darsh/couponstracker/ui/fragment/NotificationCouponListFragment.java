@@ -19,10 +19,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.darsh.couponstracker.R;
-import com.darsh.couponstracker.ui.adapter.CouponListCursorAdapter;
+import com.darsh.couponstracker.controller.util.Utilities;
 import com.darsh.couponstracker.data.database.CouponContract;
 import com.darsh.couponstracker.logger.DebugLog;
-import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.ui.adapter.CouponListCursorAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

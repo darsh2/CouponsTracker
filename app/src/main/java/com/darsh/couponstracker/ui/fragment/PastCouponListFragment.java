@@ -2,10 +2,10 @@ package com.darsh.couponstracker.ui.fragment;
 
 import android.database.Cursor;
 
-import com.darsh.couponstracker.data.database.CouponContract;
-import com.darsh.couponstracker.logger.DebugLog;
-import com.darsh.couponstracker.data.model.Coupon;
 import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.data.database.CouponContract;
+import com.darsh.couponstracker.data.model.Coupon;
+import com.darsh.couponstracker.logger.DebugLog;
 
 import java.util.ArrayList;
 import java.util.HashSet;
