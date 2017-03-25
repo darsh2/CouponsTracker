@@ -32,31 +32,37 @@ public class ExportToDriveService extends GoogleDriveService {
     @Override
     protected boolean handleIntent() {
         DebugLog.logMethod();
-        DriveFile driveFile = getDriveFile();
-        boolean isNewFile = driveFile == null;
-        DriveContents driveContents = driveFile == null
-                ? createDriveFile()
-                : openDriveFileInEditMode(driveFile);
-        if (driveContents == null) {
-            showError("Failed to create drive file");
+        try {
+            DriveFile driveFile = getDriveFile();
+            boolean isNewFile = driveFile == null;
+            DriveContents driveContents = driveFile == null
+                    ? createDriveFile()
+                    : openDriveFileInEditMode(driveFile);
+            if (driveContents == null) {
+                showError("Failed to create drive file");
+                return false;
+            }
+
+            String couponsJson = getCouponsJson();
+            if (couponsJson == null) {
+                driveContents.discard(getGoogleApiClient());
+                showError("Error while reading coupon data");
+                return false;
+            }
+
+            if (!writeToDriveFile(driveContents, couponsJson, isNewFile)) {
+                driveContents.discard(getGoogleApiClient());
+                showError("Error occurred while exporting to Google drive");
+                return false;
+            }
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            DebugLog.logMessage(e.getMessage());
+            showError("Error: " + e.getMessage());
             return false;
         }
-
-        String couponsJson = getCouponsJson();
-        if (couponsJson == null) {
-            driveContents.discard(getGoogleApiClient());
-            showError("Error while reading coupon data");
-            return false;
-        }
-
-        if (!writeToDriveFile(driveContents, couponsJson, isNewFile)) {
-            driveContents.discard(getGoogleApiClient());
-            showError("Error occurred while exporting to Google drive");
-            return false;
-        }
-
-        driveContents.discard(getGoogleApiClient());
-        return true;
     }
 
     private DriveContents createDriveFile() {
@@ -90,6 +96,14 @@ public class ExportToDriveService extends GoogleDriveService {
     private boolean writeToDriveFile(DriveContents driveContents, String couponsJson, boolean isNewFile) {
         DebugLog.logMethod();
         OutputStream outputStream = driveContents.getOutputStream();
+        /*
+        Ref: http://stackoverflow.com/a/4069104/3946664
+        
+        Avoiding usage of outputStream.write() since it requires a byte array to be
+        passed. In case of String, the getBytes() should be avoided since it uses
+        default encoding of the JVM which cannot be reliably predicted in a portable
+        manner. Hence using Writer's write method.
+         */
         Writer writer = new OutputStreamWriter(outputStream);
         try {
             writer.write(couponsJson);

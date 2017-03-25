@@ -30,26 +30,33 @@ public class ImportFromDriveService extends GoogleDriveService {
     @Override
     protected boolean handleIntent() {
         DebugLog.logMethod();
-        // Get coupon data json file from app folder
-        DriveFile driveFile = getDriveFile();
-        if (driveFile == null) {
-            showError("No coupon data available in drive");
+        try {
+            // Get coupon data json file from app folder
+            DriveFile driveFile = getDriveFile();
+            if (driveFile == null) {
+                showError("No coupon data available in drive");
+                return false;
+            }
+
+            // Get the json array of coupons
+            String couponsJson = getCouponsJson(driveFile);
+            if (couponsJson == null) {
+                showError("Error while reading file contents");
+                return false;
+            }
+
+            // Bulk insert the coupons in db
+            getApplicationContext().getContentResolver().bulkInsert(
+                    CouponContract.CouponTable.URI,
+                    getContentValuesArray(couponsJson)
+            );
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            DebugLog.logMessage(e.getMessage());
+            showError("Error: " + e.getMessage());
             return false;
         }
-
-        // Get the json array of coupons
-        String couponsJson = getCouponsJson(driveFile);
-        if (couponsJson == null) {
-            showError("Error while reading file contents");
-            return false;
-        }
-
-        // Bulk insert the coupons in db
-        getApplicationContext().getContentResolver().bulkInsert(
-                CouponContract.CouponTable.URI,
-                getContentValuesArray(couponsJson)
-        );
-        return true;
     }
 
     private String getCouponsJson(DriveFile driveFile) {
