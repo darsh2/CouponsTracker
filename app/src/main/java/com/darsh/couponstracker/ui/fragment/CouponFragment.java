@@ -23,6 +23,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import com.darsh.couponstracker.R;
 import com.darsh.couponstracker.controller.util.Constants;
@@ -70,6 +72,14 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
     private CompositeDisposable compositeDisposable;
 
     private Unbinder unbinder;
+
+    private Handler handler;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.scroll_view)
+    ScrollView scrollView;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -131,6 +141,7 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         DebugLog.logMethod();
+        handler = new Handler();
 
         View view = inflater.inflate(R.layout.fragment_coupon, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -369,6 +380,23 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
 
         inputLayoutDescription.setEnabled(isEnabled);
         editTextDescription.setEnabled(isEnabled);
+
+        /*
+        On devices below Android Nougat, the animation for TextInputLayout has a
+        considerable lag due to which it overlaps with the contents of it's children.
+        Hacky fix for the same is to hide the entire scroll view for a small amount
+        of time, and then make it visible. When the scroll view is hidden, the progress
+        is shown and vice versa.
+         */
+        scrollView.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.INVISIBLE);
+                scrollView.setVisibility(View.VISIBLE);
+            }
+        }, 500);
     }
 
     private void showDatePickerDialog(Calendar calendar) {
@@ -743,6 +771,10 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
     @Override
     public void onDestroyView() {
         DebugLog.logMethod();
+        // Remove all callbacks and messages from the handler's message queue
+        handler.removeCallbacksAndMessages(null);
+        handler = null;
+
         toolbar.setNavigationOnClickListener(null);
         toolbar.setOnMenuItemClickListener(null);
 
