@@ -58,6 +58,7 @@ public class CouponListActivity extends AppCompatActivity implements CouponListA
     private PastCouponListFragment pastCouponListFragment;
 
     private boolean isTablet;
+    private boolean loadFragmentFromWidgetClick;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -133,6 +134,10 @@ public class CouponListActivity extends AppCompatActivity implements CouponListA
             }
         });
 
+        loadFragmentFromWidgetClick = true;
+        if (savedInstanceState != null) {
+            loadFragmentFromWidgetClick = savedInstanceState.getBoolean(Constants.BUNDLE_EXTRA_WIDGET_CLICK, true);
+        }
         handleWidgetItemClick();
     }
 
@@ -161,14 +166,17 @@ public class CouponListActivity extends AppCompatActivity implements CouponListA
      * Loads the appropriate coupon that was clicked in the widget.
      */
     private void handleWidgetItemClick() {
+        DebugLog.logMethod();
         Intent intent = getIntent();
         if (intent == null || intent.getExtras() == null) {
             return;
         }
 
+        DebugLog.logMessage("Load coupon fragment");
         Bundle bundle = intent.getExtras();
         boolean loadCouponFragment = intent.getBooleanExtra(Constants.BUNDLE_EXTRA_LOAD_COUPON_FRAGMENT, false);
-        if (loadCouponFragment) {
+        if (loadCouponFragment && loadFragmentFromWidgetClick) {
+            loadFragmentFromWidgetClick = false;
             onCouponClick((Coupon) bundle.getParcelable(Constants.COUPON_PARCELABLE));
         }
     }
@@ -240,6 +248,7 @@ public class CouponListActivity extends AppCompatActivity implements CouponListA
         DebugLog.logMethod();
         getSupportFragmentManager().putFragment(outState, UpcomingCouponListFragment.TAG, upcomingCouponListFragment);
         getSupportFragmentManager().putFragment(outState, PastCouponListFragment.TAG, pastCouponListFragment);
+        outState.putBoolean(Constants.BUNDLE_EXTRA_WIDGET_CLICK, loadFragmentFromWidgetClick);
     }
 
     @Override

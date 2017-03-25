@@ -16,6 +16,7 @@ public class Constants {
     public static final String BUNDLE_EXTRA_LIST_POSITION = "bundle_extra_list_position";
     public static final String BUNDLE_EXTRA_MERCHANT_SUGGESTIONS = "bundle_extra_merchant_suggestions";
     public static final String BUNDLE_EXTRA_CATEGORY_SUGGESTIONS = "bundle_extra_category_suggestions";
+    public static final String BUNDLE_EXTRA_WIDGET_CLICK = "bundle_extra_widget_click";
 
     public static final String BUNDLE_EXTRA_NUM_COUPONS_AVAILABLE = "num_coupons_available";
 
