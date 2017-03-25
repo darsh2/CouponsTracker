@@ -463,7 +463,8 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
             inputLayoutMerchant.setError(getString(R.string.error_invalid_merchant));
             hasError = true;
         }
-        if (coupon.category.length() < 2
+        if (coupon.category.equals(Coupon.DUMMY_STRING)
+                || coupon.category.length() < 2
                 || coupon.category.length() > 20) {
             inputLayoutCategory.setError(getString(R.string.error_invalid_category));
             hasError = true;
