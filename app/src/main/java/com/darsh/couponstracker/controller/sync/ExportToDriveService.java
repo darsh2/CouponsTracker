@@ -33,6 +33,11 @@ public class ExportToDriveService extends GoogleDriveService {
     protected boolean handleIntent() {
         DebugLog.logMethod();
         try {
+            String couponsJson = getCouponsJson();
+            if (couponsJson == null) {
+                return false;
+            }
+
             DriveFile driveFile = getDriveFile();
             boolean isNewFile = driveFile == null;
             DriveContents driveContents = driveFile == null
@@ -40,13 +45,6 @@ public class ExportToDriveService extends GoogleDriveService {
                     : openDriveFileInEditMode(driveFile);
             if (driveContents == null) {
                 showError("Failed to create drive file");
-                return false;
-            }
-
-            String couponsJson = getCouponsJson();
-            if (couponsJson == null) {
-                driveContents.discard(getGoogleApiClient());
-                showError("Error while reading coupon data");
                 return false;
             }
 
@@ -144,7 +142,7 @@ public class ExportToDriveService extends GoogleDriveService {
     private String getCouponsJson() {
         DebugLog.logMethod();
         ArrayList<Coupon> coupons = getCoupons();
-        if (coupons == null) {
+        if (coupons == null || coupons.size() == 0) {
             showError("Error fetching coupons from app. Please try again");
             return null;
         }
