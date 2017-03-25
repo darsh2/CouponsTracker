@@ -33,28 +33,36 @@ public class ExportToDriveService extends GoogleDriveService {
     protected boolean handleIntent() {
         DebugLog.logMethod();
         try {
+            /*
+            First retrieve the json representation of all coupons in
+            the app. If this data is null, return false.
+             */
             String couponsJson = getCouponsJson();
             if (couponsJson == null) {
+                showError("No coupon data");
                 return false;
             }
 
+            // Get the drive app specific drive file to write data into.
             DriveFile driveFile = getDriveFile();
             boolean isNewFile = driveFile == null;
+            // Get the driveContents to write data to.
             DriveContents driveContents = driveFile == null
-                    ? createDriveFile()
-                    : openDriveFileInEditMode(driveFile);
+                    ? createDriveFileContents()
+                    : openDriveContentsFileInEditMode(driveFile);
             if (driveContents == null) {
                 showError("Failed to create drive file");
                 return false;
             }
 
+            // Write the couponsJson to the app specific file in google drive
             if (!writeToDriveFile(driveContents, couponsJson, isNewFile)) {
                 driveContents.discard(getGoogleApiClient());
                 showError("Error occurred while exporting to Google drive");
                 return false;
             }
-
             return true;
+
         } catch (Exception e) {
             e.printStackTrace();
             DebugLog.logMessage(e.getMessage());
@@ -63,7 +71,7 @@ public class ExportToDriveService extends GoogleDriveService {
         }
     }
 
-    private DriveContents createDriveFile() {
+    private DriveContents createDriveFileContents() {
         DebugLog.logMethod();
         DriveApi.DriveContentsResult driveContentsResult = Drive.DriveApi
                 .newDriveContents(getGoogleApiClient())
@@ -76,8 +84,9 @@ public class ExportToDriveService extends GoogleDriveService {
         return driveContentsResult.getDriveContents();
     }
 
-    private DriveContents openDriveFileInEditMode(DriveFile driveFile) {
+    private DriveContents openDriveContentsFileInEditMode(DriveFile driveFile) {
         DebugLog.logMethod();
+        // Get drive contents in write mode
         DriveApi.DriveContentsResult driveContentsResult = driveFile.open(
                 getGoogleApiClient(),
                 DriveFile.MODE_WRITE_ONLY,
@@ -91,6 +100,10 @@ public class ExportToDriveService extends GoogleDriveService {
         return driveContentsResult.getDriveContents();
     }
 
+    /**
+     * Write the couponsJson to the driveContents, creating or updating the file as required.
+     * Returns a boolean indicating success of this task.
+     */
     private boolean writeToDriveFile(DriveContents driveContents, String couponsJson, boolean isNewFile) {
         DebugLog.logMethod();
         OutputStream outputStream = driveContents.getOutputStream();
@@ -114,6 +127,10 @@ public class ExportToDriveService extends GoogleDriveService {
         return isNewFile ? commitToNewFile(driveContents) : commitToExistingFile(driveContents);
     }
 
+    /**
+     * Creates a new file and adds the {@link DriveContents} passed to this method.
+     * @return Returns a boolean stating the success of this operation
+     */
     private boolean commitToNewFile(DriveContents driveContents) {
         DebugLog.logMethod();
         MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
@@ -130,6 +147,10 @@ public class ExportToDriveService extends GoogleDriveService {
         return driveFileResult.getStatus().isSuccess();
     }
 
+    /**
+     * Updates the existing file with the driveContents passed.
+     * @return Returns a boolean indicating the success of this operation
+     */
     private boolean commitToExistingFile(DriveContents driveContents) {
         DebugLog.logMethod();
         com.google.android.gms.common.api.Status status =
@@ -139,6 +160,9 @@ public class ExportToDriveService extends GoogleDriveService {
         return status.getStatus().isSuccess();
     }
 
+    /**
+     * Returns the json string of all the coupons present in the app.
+     */
     private String getCouponsJson() {
         DebugLog.logMethod();
         ArrayList<Coupon> coupons = getCoupons();
@@ -151,6 +175,10 @@ public class ExportToDriveService extends GoogleDriveService {
         return gson.toJson(coupons);
     }
 
+    /**
+     * Returns an {@link ArrayList} of {@link Coupon Coupons} that are saved
+     * in the app. Returns null if any error while performing the query.
+     */
     private ArrayList<Coupon> getCoupons() {
         DebugLog.logMethod();
         Cursor cursor = getContentResolver().query(

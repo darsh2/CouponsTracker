@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.controller.util.AppWidgetAlarmManager;
 import com.darsh.couponstracker.controller.util.NotificationAlarmManager;
+import com.darsh.couponstracker.logger.DebugLog;
 
 /**
  * <p>Created by darshan on 21/3/17.
@@ -22,6 +22,7 @@ public class BootReceiver extends BroadcastReceiver {
         DebugLog.logMethod();
         DebugLog.logMessage("Action: " + intent.getAction());
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+            // Reset both alarms.
             AppWidgetAlarmManager.setAlarm(context);
             NotificationAlarmManager.setAlarm(context);
         }

@@ -106,13 +106,13 @@
     <string name="sync_export_title">Coupons successfully exported</string>
     <string name="sync_export_text">Coupons exported to Google Drive.</string>
     <string name="error_sync_export_title">Export coupons error</string>
-    <string name="error_sync_export_text">Operation failed. Please try again!</string>
+    <string name="error_sync_export_text">Export failed. Please try again!</string>
 
     <!--Import from drive strings-->
     <string name="sync_import_title">Coupons successfully imported</string>
     <string name="sync_import_text">Coupons imported from Google Drive.</string>
     <string name="error_sync_import_title">Import coupons error</string>
-    <string name="error_sync_import_text">Operation failed. Please try again!</string>
+    <string name="error_sync_import_text">Import failed. Please try again!</string>
     <string name="error_sync_import_no_data">There is no coupons data backed in Google Drive for this account.</string>
 
     <!--Progress dialog strings-->

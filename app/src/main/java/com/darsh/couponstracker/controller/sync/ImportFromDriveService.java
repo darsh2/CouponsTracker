@@ -59,18 +59,26 @@ public class ImportFromDriveService extends GoogleDriveService {
         }
     }
 
+    /**
+     * Returns the string representation of the coupons json that was stored
+     * in {@link DriveFile} passed to this method.
+     */
     private String getCouponsJson(DriveFile driveFile) {
         DebugLog.logMethod();
+        // Open file in read mode
         DriveApi.DriveContentsResult driveContentsResult = driveFile
                 .open(getGoogleApiClient(), DriveFile.MODE_READ_ONLY, null)
                 .await();
+
         DebugLog.logMessage("Status code: " + driveContentsResult.getStatus().getStatusCode()
                 + "\nStatus message: " + driveContentsResult.getStatus().getStatusMessage());
+
         if (!driveContentsResult.getStatus().isSuccess()) {
             DebugLog.logMessage("DriveContentsResult failure");
             return null;
         }
 
+        // Read the contents of the file line by line and generate the json.
         DriveContents driveContents = driveContentsResult.getDriveContents();
         BufferedReader reader = new BufferedReader(new InputStreamReader(driveContents.getInputStream()));
         StringBuilder builder = new StringBuilder();
@@ -88,8 +96,17 @@ public class ImportFromDriveService extends GoogleDriveService {
         return builder.toString();
     }
 
+    /**
+     * Returns a {@link ContentValues} array of all the coupons in the
+     * coupons JSON.
+     */
     private ContentValues[] getContentValuesArray(String couponsJson) {
         Gson gson = new Gson();
+        /*
+        Convert the json representation of the coupon data to an arrayList
+        of coupons. Logic to perform this taken from:
+        https://github.com/google/gson/blob/master/UserGuide.md#TOC-Serializing-and-Deserializing-Generic-Types
+         */
         Type collectionType = new TypeToken<ArrayList<Coupon>>(){}.getType();
         ArrayList<Coupon> coupons = gson.fromJson(couponsJson, collectionType);
         ContentValues[] contentValuesArray = new ContentValues[coupons.size()];

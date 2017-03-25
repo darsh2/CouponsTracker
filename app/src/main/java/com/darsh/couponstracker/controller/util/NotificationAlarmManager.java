@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.darsh.couponstracker.ui.fragment.SettingsFragment;
-import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.controller.receiver.NotificationAlarmReceiver;
+import com.darsh.couponstracker.logger.DebugLog;
+import com.darsh.couponstracker.ui.fragment.SettingsFragment;
 
 import java.util.Calendar;
 

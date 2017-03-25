@@ -9,7 +9,11 @@ import com.darsh.couponstracker.controller.util.Constants;
 import com.darsh.couponstracker.controller.util.Utilities;
 
 /**
- * Created by darshan on 21/3/17.
+ * <p>Created by darshan on 21/3/17.
+ *
+ * <p>A {@link WakefulBroadcastReceiver} that listens for an {@link Intent} with
+ * action as {@link Constants#ACTION_WIDGET_UPDATE}. On receiving such an intent,
+ * informs app to update it's widget.
  */
 
 public class AppWidgetAlarmReceiver extends WakefulBroadcastReceiver {

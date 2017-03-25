@@ -15,6 +15,10 @@ import java.util.Calendar;
  */
 
 public class AppWidgetAlarmManager {
+    /**
+     * Sets a daily recurring alarm that is to trigger that
+     * 2 am device time.
+     */
     public static void setAlarm(Context context) {
         DebugLog.logMethod();
         context.getApplicationContext();
@@ -34,6 +38,9 @@ public class AppWidgetAlarmManager {
         );
     }
 
+    /**
+     * Cancels any previously set alarms of similar type.
+     */
     public static void cancelAlarm(Context context) {
         DebugLog.logMethod();
         context = context.getApplicationContext();

@@ -71,6 +71,7 @@ public abstract class GoogleDriveService extends IntentService {
 
         boolean isSuccess = handleIntent();
         googleApiClient.disconnect();
+        // Update SharedPreferences indicating completion of sync task
         Utilities.updateSharedPreferences(getApplicationContext(), false, -1);
         DebugLog.logMessage("Completed sync task");
 
@@ -79,13 +80,26 @@ public abstract class GoogleDriveService extends IntentService {
             return;
         }
 
+        /*
+        Post SyncCompleteEvent across the app. Registered subscribers will perform
+        necessary actions for the same.
+         */
         EventBus.getDefault().post(new SyncCompleteEvent());
+        // Create and show sync task success notification.
         CouponsTrackerNotification notification = new CouponsTrackerNotification(getApplicationContext());
         notification.showSyncSuccessNotification(syncMode);
     }
 
+    /**
+     * Abstract method whose implementation will define how the Drive sync
+     * task will be performed.
+     */
     protected abstract boolean handleIntent();
 
+    /**
+     * Returns the app specific {@link DriveFile} if it has already been created. Else
+     * returns null.
+     */
     protected final DriveFile getDriveFile() {
         DebugLog.logMethod();
 
@@ -117,6 +131,7 @@ public abstract class GoogleDriveService extends IntentService {
         DebugLog.logMessage(message);
 
         EventBus.getDefault().post(new SyncCompleteEvent());
+        // Create and show sync task error notification.
         CouponsTrackerNotification notification = new CouponsTrackerNotification(getApplicationContext());
         notification.showSyncErrorNotification(syncMode);
     }
@@ -133,6 +148,17 @@ public abstract class GoogleDriveService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         DebugLog.logMethod();
+        /*
+        If the service is abruptly interrupted, then update SharedPreference
+        to indicate that the sync task is completed. Else, each time the app
+        is opened, it will navigate to SettingsActivity showing the progress
+        dialog.
+
+        TODO:
+        Sometimes onDestroy is not called. In that case above mentioned issue
+        still persists. Only way to fix that is for the user to go and clear
+        his app data. Find a proper fix for the same.
+         */
         Utilities.updateSharedPreferences(getApplicationContext(), false, -1);
     }
 }
