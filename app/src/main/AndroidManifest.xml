@@ -15,7 +15,7 @@
         <activity
             android:name=".ui.activity.CouponListActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -26,7 +26,7 @@
             android:name=".ui.activity.CouponActivity"
             android:parentActivityName=".ui.activity.CouponListActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -36,7 +36,8 @@
         <activity
             android:name=".ui.activity.ContainerActivity"
             android:parentActivityName=".ui.activity.CouponListActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -114,9 +115,6 @@
         </receiver>
 
         <!--Google Drive Sync Services-->
-        <service
-            android:name=".controller.sync.GoogleDriveService"
-            android:exported="false"/>
         <service
             android:name=".controller.sync.ExportToDriveService"
             android:exported="false"/>
