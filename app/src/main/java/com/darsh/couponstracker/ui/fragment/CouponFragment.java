@@ -493,13 +493,13 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
     private void getDataFromViews() {
         DebugLog.logMethod();
         if (autoCompleteMerchant.getText() != null) {
-            coupon.merchant = autoCompleteMerchant.getText().toString();
+            coupon.merchant = autoCompleteMerchant.getText().toString().trim();
         }
         if (autoCompleteCategory.getText() != null) {
-            coupon.category = autoCompleteCategory.getText().toString();
+            coupon.category = autoCompleteCategory.getText().toString().trim();
         }
         if (editTextCouponCode.getText() != null) {
-            coupon.couponCode = editTextCouponCode.getText().toString();
+            coupon.couponCode = editTextCouponCode.getText().toString().trim();
         }
         /*
         On clicking the editTextCouponCode, the editText is set to an empty string.
@@ -509,7 +509,7 @@ public class CouponFragment extends Fragment implements DatePickerDialog.OnDateS
             coupon.couponCode = getString(R.string.no_code_required);
         }
         if (editTextDescription.getText() != null) {
-            coupon.description = editTextDescription.getText().toString();
+            coupon.description = editTextDescription.getText().toString().trim();
         }
     }
 
