@@ -1,6 +1,8 @@
 package com.darsh.couponstracker.ui.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +16,7 @@ import android.view.View;
 import com.darsh.couponstracker.R;
 import com.darsh.couponstracker.controller.util.Constants;
 import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.data.database.CouponContract;
 import com.darsh.couponstracker.data.model.Coupon;
 import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.ui.adapter.CouponListAdapter;
@@ -99,6 +102,16 @@ public class CouponListActivity extends AppCompatActivity implements CouponListA
                         Intent intent = new Intent(CouponListActivity.this, SettingsActivity.class);
                         startActivity(intent);
                         return true;
+                    }
+
+                    case R.id.menu_item_sample_data: {
+                        DebugLog.logMessage("Sample data");
+                        if (!Utilities.isSampleDataAdded(getApplicationContext())) {
+                            Utilities.showToast(getApplicationContext(), getString(R.string.warning_sample_data));
+                            new AddSampleDataTask().execute();
+                        } else {
+                            Utilities.showToast(getApplicationContext(), getString(R.string.multiple_add_sample_data));
+                        }
                     }
                 }
                 return true;
@@ -237,5 +250,26 @@ public class CouponListActivity extends AppCompatActivity implements CouponListA
         viewPager.setAdapter(null);
         unbinder.unbind();
         super.onDestroy();
+    }
+
+    private class AddSampleDataTask extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ArrayList<Coupon> coupons = Utilities.getSampleData();
+            ContentValues[] contentValuesArray = new ContentValues[coupons.size()];
+            for (int i = 0, l = coupons.size(); i < l; i++) {
+                contentValuesArray[i] = Coupon.getContentValues(coupons.get(i));
+            }
+            getContentResolver().bulkInsert(
+                    CouponContract.CouponTable.URI,
+                    contentValuesArray
+            );
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            Utilities.updateSampleDataAdded(getApplicationContext());
+        }
     }
 }

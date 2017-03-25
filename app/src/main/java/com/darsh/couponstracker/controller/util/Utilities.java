@@ -10,10 +10,12 @@ import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
+import com.darsh.couponstracker.data.model.Coupon;
 import com.darsh.couponstracker.logger.DebugLog;
 import com.darsh.couponstracker.ui.activity.SettingsActivity;
 import com.darsh.couponstracker.ui.widget.CouponWidgetProvider;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -184,5 +186,28 @@ public class Utilities {
             Intent intent = new Intent(context, SettingsActivity.class);
             context.startActivity(intent);
         }
+    }
+
+    private static final String PREFERENCE_SAMPLE_DATA_ADDED = "sample_data_added";
+    public static boolean isSampleDataAdded(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean(PREFERENCE_SAMPLE_DATA_ADDED, false);
+    }
+
+    public static void updateSampleDataAdded(Context context) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putBoolean(PREFERENCE_SAMPLE_DATA_ADDED, true);
+        editor.apply();
+    }
+
+    public static ArrayList<Coupon> getSampleData() {
+        ArrayList<Coupon> coupons = new ArrayList<>(6);
+        coupons.add(new Coupon(-1, "Amazon", "electronics", 20170322, "No code required", "20% off on one plus devices", 1));
+        coupons.add(new Coupon(-1, "Nike", "sports", 20170321, "FOOBAR123", "Buy a new Nike shoe and get a sweatshirt free", 0));
+        coupons.add(new Coupon(-1, "Vodafone", "telecom", 20170331, "No code required", "1 GB 3G data pack for 21 days at Rs. 245", 0));
+        coupons.add(new Coupon(-1, "Walmart", "online", 20170402L, "FOOBAR456", "10% off for online orders", 0));
+        coupons.add(new Coupon(-1, "Amazon", "books", 20170401L, "HELLOWORLD", "Same day delivery for CLRS algorithm book", 1));
+        coupons.add(new Coupon(-1, "Udacity", "mooc", 20170401L, "SUCHWOW", "10% discount for web developer nanodegree", 0));
+        return coupons;
     }
 }

@@ -13,4 +13,10 @@
         android:title="@string/menu_item_settings"
         android:orderInCategory="200"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_item_sample_data"
+        android:title="@string/menu_item_sample_data"
+        android:orderInCategory="300"
+        app:showAsAction="never"/>
 </menu>
