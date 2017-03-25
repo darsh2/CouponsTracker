@@ -13,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.darsh.couponstracker.R;
-import com.darsh.couponstracker.logger.DebugLog;
-import com.darsh.couponstracker.data.model.Coupon;
 import com.darsh.couponstracker.controller.util.Utilities;
+import com.darsh.couponstracker.data.model.Coupon;
+import com.darsh.couponstracker.logger.DebugLog;
 
 /**
  * Created by darshan on 23/3/17.
@@ -70,7 +70,6 @@ public class CouponListCursorAdapter extends RecyclerView.Adapter<CouponListCurs
             holder.imageViewCouponState.setImageDrawable(
                     ContextCompat.getDrawable(context, R.drawable.ic_add_shopping_cart_orange_24dp)
             );
-            holder.imageViewCouponState.setColorFilter(R.color.material_orange_900);
             holder.textViewCouponState.setText(context.getString(R.string.coupon_state_available));
             holder.textViewCouponState.setTextColor(ContextCompat.getColor(context, R.color.material_orange_900));
         }
