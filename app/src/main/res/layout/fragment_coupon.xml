@@ -43,7 +43,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_merchant_name"
-                    android:textColor="@drawable/edit_text_state_color"/>
+                    android:textColor="@drawable/edit_text_state_color"
+                    android:nextFocusDown="@+id/auto_complete_category"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -58,7 +59,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_category"
-                    android:textColor="@drawable/edit_text_state_color"/>
+                    android:textColor="@drawable/edit_text_state_color"
+                    android:nextFocusDown="@+id/edit_text_coupon_code"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -88,7 +90,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_coupon_code"
-                    android:textColor="@drawable/edit_text_state_color"/>
+                    android:textColor="@drawable/edit_text_state_color"
+                    android:nextFocusDown="@+id/edit_text_description"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
